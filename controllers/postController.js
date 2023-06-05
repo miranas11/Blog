@@ -16,7 +16,11 @@ module.exports.createPost = async (req, res) => {
 module.exports.showPost = async (req, res) => {
     const id = req.params.id;
     const post = await Post.findById(id)
-        .populate("author")
-        .populate("comments");
+        .populate({ path: "author", select: "username" })
+        .populate({
+            path: "comments",
+            select: "body author",
+            populate: { path: "author", select: "username" },
+        });
     res.send(post);
 };

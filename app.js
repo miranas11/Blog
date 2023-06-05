@@ -29,3 +29,8 @@ app.get("/", (req, res) => {
 app.use("/posts", postRoute);
 app.use("/user", userRoute);
 app.use("/posts/:id/comments", commentRoute);
+
+app.use((err, req, res, next) => {
+    const { statusCode = 500, message = "ERROR NOT FOUND" } = err;
+    res.status(statusCode).send(message);
+});

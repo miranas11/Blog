@@ -2,7 +2,13 @@ const Post = require("../models/post");
 const { user_id } = require("../constants");
 
 module.exports.showAllPosts = async (req, res) => {
-    const posts = await Post.find().populate("author").populate("comments");
+    const posts = await Post.find()
+        .populate({ path: "author", select: "username" })
+        .populate({
+            path: "comments",
+            select: "body autor",
+            populate: { path: "author", select: "username" },
+        });
     res.send(posts);
 };
 

@@ -2,13 +2,24 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
-    body: String,
-    likes: number,
+    body: {
+        type: String,
+        required: true,
+    },
+    likes: {
+        type: Number,
+        default: 0,
+    },
     author: {
         type: Schema.Types.ObjectId,
         ref: "User",
     },
-    comments: [String],
+    comments: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Comment",
+        },
+    ],
     date: {
         type: String,
         default: Date.now,

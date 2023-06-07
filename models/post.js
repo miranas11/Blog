@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Comment = require("./comment");
 
 const postSchema = new Schema({
     body: {
@@ -23,6 +24,16 @@ const postSchema = new Schema({
         type: String,
         default: Date.now,
     },
+});
+
+postSchema.post("findOneAndDelete", async (doc) => {
+    if (doc) {
+        await Comment.deleteMany({
+            _id: {
+                $in: doc.comments,
+            },
+        });
+    }
 });
 
 const Post = mongoose.model("Post", postSchema);

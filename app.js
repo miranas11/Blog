@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const postRoute = require("./routes/postRoute");
 const userRoute = require("./routes/userRoute");
 const commentRoute = require("./routes/commentRoute");
+
 app.listen(3000, () => {
     console.log("Listening on Port 3000");
 });

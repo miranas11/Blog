@@ -2,7 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 const postController = require("../controllers/postController");
-const { validatePosts, requireLogin } = require("../utils/middlewares");
+const {
+    validatePosts,
+    requireLogin,
+    isAuthor,
+    catchAsync,
+} = require("../utils/middlewares");
 
 router
     .route("/")
@@ -11,8 +16,8 @@ router
 
 router
     .route("/:id")
-    .get(postController.showPost)
+    .get(catchAsync(postController.showPost))
     //need to implemet is author for deletepost
-    .delete(postController.deletePost);
+    .delete(isAuthor, catchAsync(postController.deletePost));
 
 module.exports = router;

@@ -41,7 +41,12 @@ app.use("/posts", postRoute);
 app.use("/user", userRoute);
 app.use("/posts/:id/comments", commentRoute);
 
+app.all("*", (req, res, next) => {
+    next(new ExpressError("Page not Found", 404));
+});
+
 app.use((err, req, res, next) => {
     const { statusCode = 500, message = "ERROR NOT FOUND" } = err;
+    console.log("**************ERROR*******************");
     res.status(statusCode).send(message);
 });

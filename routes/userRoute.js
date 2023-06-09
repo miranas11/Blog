@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const userController = require("../controllers/userController");
+const { catchAsync } = require("../utils/middlewares");
 
 router.route("/register").post(userController.createUser);
 
@@ -14,6 +15,6 @@ router
     })
     .post(userController.validateUser);
 
-router.route("/:id").get(userController.showUserById);
+router.route("/:id").get(catchAsync(userController.showUserById));
 
 module.exports = router;

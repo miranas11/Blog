@@ -43,6 +43,6 @@ module.exports.showPost = async (req, res) => {
 module.exports.deletePost = async (req, res) => {
     const id = req.params.id;
     await Post.findByIdAndDelete(id);
-    const message = `Post with Id ${id} ID deleted succesfully`;
+    const message = `Post deleted succesfully`;
     res.redirect(`/posts?message=${encodeURIComponent(message)}`);
 };

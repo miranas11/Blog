@@ -20,3 +20,11 @@ module.exports.validateComments = (req, res, next) => {
         next();
     }
 };
+
+//cheks user if logged in
+module.exports.requireLogin = (req, res, next) => {
+    if (!req.session.user_id) {
+        return res.send("PLEASE LOGIN FIRST");
+    }
+    next();
+};

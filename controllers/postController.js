@@ -16,8 +16,9 @@ module.exports.showAllPosts = async (req, res) => {
 
 module.exports.createPost = async (req, res) => {
     const post = new Post(req.body);
-    post.author = user_id;
-    const user = await User.findById(user_id);
+    //sets the post autor to current loged in user
+    post.author = req.session.user_id;
+    const user = await User.findById(req.session.user_id);
 
     savedPost = await post.save();
     user.posts.push(savedPost._id);

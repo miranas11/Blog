@@ -1,18 +1,28 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
+const session = require("express-session");
 
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 
 const postRoute = require("./routes/postRoute");
 const userRoute = require("./routes/userRoute");
 const commentRoute = require("./routes/commentRoute");
 
+// app.use(bodyParser.json());
+app.use(express.json());
+
+app.use(
+    session({
+        secret: "x7c59#S2g^r$H9npRDf@!L$B2jkQp8",
+        resave: false,
+        saveUninitialized: true,
+    })
+);
+
 app.listen(3000, () => {
     console.log("Listening on Port 3000");
 });
-
-app.use(bodyParser.json());
 
 mongoose
     .connect("mongodb://127.0.0.1:27017/Blog")

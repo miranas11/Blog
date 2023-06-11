@@ -1,6 +1,7 @@
 const Post = require("../models/post");
 const { user_id } = require("../constants");
 const User = require("../models/user");
+const CustomError = require("../utils/CustomError");
 
 module.exports.showAllPosts = async (req, res) => {
     const message = req.query.message;
@@ -29,7 +30,6 @@ module.exports.createPost = async (req, res) => {
 module.exports.showPost = async (req, res) => {
     const id = req.params.id;
     const message = req.query.message;
-
     const post = await Post.findById(id)
         .populate({ path: "author", select: "username" })
         .populate({
@@ -37,9 +37,15 @@ module.exports.showPost = async (req, res) => {
             select: "body author",
             populate: { path: "author", select: "username" },
         });
+
+    if (!post) {
+        throw new CustomError("POST NOT FOUND", 400);
+    }
     res.send({ message, post });
 };
 
+// *************************************
+// ************************************
 module.exports.deletePost = async (req, res) => {
     const id = req.params.id;
     await Post.findByIdAndDelete(id);

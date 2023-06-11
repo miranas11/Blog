@@ -7,17 +7,18 @@ const {
     requireLogin,
     isAuthor,
     catchAsync,
+    checkId,
 } = require("../utils/middlewares");
 
 router
     .route("/")
-    .get(postController.showAllPosts)
-    .post(requireLogin, validatePosts, postController.createPost);
+    .get(catchAsync(postController.showAllPosts))
+    .post(requireLogin, validatePosts, catchAsync(postController.createPost));
 
 router
     .route("/:id")
-    .get(catchAsync(postController.showPost))
+    .get(checkId, catchAsync(postController.showPost))
     //need to implemet is author for deletepost
-    .delete(isAuthor, catchAsync(postController.deletePost));
+    .delete(checkId, catchAsync(isAuthor), postController.deletePost);
 
 module.exports = router;

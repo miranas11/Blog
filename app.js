@@ -8,6 +8,7 @@ const session = require("express-session");
 const postRoute = require("./routes/postRoute");
 const userRoute = require("./routes/userRoute");
 const commentRoute = require("./routes/commentRoute");
+const CustomError = require("./utils/CustomError");
 
 // app.use(bodyParser.json());
 app.use(express.json());
@@ -42,7 +43,7 @@ app.use("/user", userRoute);
 app.use("/posts/:id/comments", commentRoute);
 
 app.all("*", (req, res, next) => {
-    next(new ExpressError("Page not Found", 404));
+    next(new CustomError("Page not Found", 404));
 });
 
 app.use((err, req, res, next) => {

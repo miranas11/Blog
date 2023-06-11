@@ -5,6 +5,7 @@ const {
     requireLogin,
     isCommentAuthor,
     catchAsync,
+    checkId,
 } = require("../utils/middlewares");
 const router = express.Router({ mergeParams: true });
 
@@ -15,7 +16,11 @@ router
 
 router
     .route("/:commentId")
-    .get(catchAsync(commentController.showComment))
+    .get(checkId, catchAsync(commentController.showComment))
     //need to implement isauthor
-    .delete(isCommentAuthor, catchAsync(commentController.deleteComment));
+    .delete(
+        checkId,
+        isCommentAuthor,
+        catchAsync(commentController.deleteComment)
+    );
 module.exports = router;
